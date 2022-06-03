@@ -73,11 +73,12 @@ flutter:
   assets:
     
     - assets/images/pngegg.png
-    - assets/images/background.jpg
-    - assets/images/createaccount1.jpg
-    - assets/images/createaccount2.jpg
-    - assets/images/IMG_0026.JPG
     - assets/images/logo.png
+    - assets/images/google.png
+    - assets/images/apple.png
+    - assets/images/facebook.png
+    - assets/images/appledark.png
+   
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -91,6 +92,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+
+  fonts:
+   - family:  MyFlutterApp
+     fonts:
+      - asset: assets/Fonts/FlutterIcon.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:

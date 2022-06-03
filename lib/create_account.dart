@@ -1,10 +1,13 @@
-import 'package:firestore_blog/profile_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'formValidator.dart';
+import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+
 import 'package:firestore_blog/formValidator.dart';
+import 'package:firestore_blog/profile_screen.dart';
+
+import 'formValidator.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -62,8 +65,7 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
-            child: Column(
+        body: Column(
           children: [
             Column(
               mainAxisSize: MainAxisSize.max,
@@ -240,7 +242,7 @@ class _CreateAccountState extends State<CreateAccount> {
               error2,
               style: const TextStyle(color: Colors.red),
             )),
-            SizedBox(
+            const SizedBox(
               height: 34.0,
             ),
             ElevatedButton(
@@ -270,7 +272,6 @@ class _CreateAccountState extends State<CreateAccount> {
               },
             )
           ],
-        )));
+        ));
   }
 }
-    

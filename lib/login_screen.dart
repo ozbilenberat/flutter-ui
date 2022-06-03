@@ -1,13 +1,11 @@
+import 'package:firestore_blog/create_account.dart';
 import 'package:firestore_blog/profile_screen.dart';
-import 'package:firestore_blog/s.dart';
+import 'package:firestore_blog/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'create_account.dart';
-import 'package:firestore_blog/create_account.dart';
 import 'main.dart';
-import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,8 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isDark = darkNotifier.value;
   TextEditingController passwordText = TextEditingController();
   bool isVisiblePass = passValue.value;
-
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -57,6 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (box1.get("passwordText") != null) {
       passwordText.text = box1.get("passwordText");
     }
+  }
+
+  void clearEmailTextfield() {
+    emailText.clear();
+    setState(() {});
   }
 
 //ANCHOR: GİRİŞ
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text(errorMessage),
             actions: <Widget>[
               TextButton(
-                child: Text("Close"),
+                child: const Text("Close"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -122,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double genis = MediaQuery.of(context).size.width / 1.3;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -155,19 +157,25 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width / 1.3,
+                    width: genis,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: TextFormField(
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       controller: emailText,
-                      decoration: const InputDecoration(
-                          hintText: "E-mail adress",
-                          hintStyle: TextStyle(
-                              color: Colors.black26,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500)),
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.fromLTRB(genis / 3, 8.0, 0.0, 8.0),
+                        hintText: "E-mail adress",
+                        hintStyle: const TextStyle(fontWeight: FontWeight.w500),
+                        suffixIcon: IconButton(
+                          icon: const Icon(
+                            Icons.clear,
+                          ),
+                          onPressed: clearEmailTextfield,
+                        ), // Show the clear button if the text field has something
+                      ),
                     ),
                   ),
                   Container(
@@ -178,14 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: TextFormField(
                       obscureText: isVisiblePass,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       controller: passwordText,
+                      autofocus: true,
                       decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.fromLTRB(genis / 3, 8.0, 0.0, 8.0),
                         hintText: "  Password",
-                        hintStyle: TextStyle(
-                            color: Colors.black26,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                        hintStyle: const TextStyle(fontWeight: FontWeight.w500),
                         suffixIcon: IconButton(
                           color: Theme.of(context).highlightColor,
                           onPressed: () {
@@ -205,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            Row(
+            /*  Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
@@ -239,10 +247,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ])),
                         ])),
               ],
-            ),
+            ), */
+
             Container(
-              margin: const EdgeInsets.only(bottom: 5.0),
-              width: MediaQuery.of(context).size.width / 2,
+              margin:
+                  EdgeInsets.only(top: MediaQuery.of(context).size.height / 16),
+              width: MediaQuery.of(context).size.width / 1.6,
               height: 35.0,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.blue),
@@ -251,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       login();
                     });
                   },
-                  child: const Text("Sign-in")),
+                  child: const Text("Login")),
             ),
             Container(
               alignment: Alignment.topRight,
@@ -265,54 +275,91 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            Spacer(),
-            Container(
-              margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-              width: MediaQuery.of(context).size.width / 1.8,
-              height: 35.0,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, onPrimary: Colors.white),
+            const SizedBox(height: 15.0),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                "Or, login with...",
+                style: TextStyle(color: Theme.of(context).hoverColor),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 1.5,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.black12),
+                      )),
+                    ),
+                    child: Image.asset(
+                      isDark
+                          ? 'assets/images/apple.png'
+                          : 'assets/images/appledark.png',
+                      height: 24.0,
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.black12),
+                      )),
+                    ),
+                    child:
+                        Image.asset('assets/images/google.png', height: 24.0),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.black12),
+                      )),
+                    ),
+                    child:
+                        Image.asset('assets/images/facebook.png', height: 24.0),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "new to beratAPP?",
+                  style: TextStyle(color: Theme.of(context).hoverColor),
+                  textAlign: TextAlign.center,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateAccount()),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CreateAccount()));
                   },
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(left: 30.0),
-                      child: const Text("Sign-up with E-mail"))),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 5.0),
-              width: MediaQuery.of(context).size.width / 1.8,
-              height: 35.0,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 16, 51, 165),
-                    onPrimary: Colors.white,
+                  child: const Text(
+                    'Register',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0),
                   ),
-                  onPressed: () {},
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(left: 30.0),
-                      child: const Text("Connect with Facebook"))),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 40.0),
-              width: MediaQuery.of(context).size.width / 1.8,
-              height: 35,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.deepOrange, onPrimary: Colors.white),
-                  onPressed: login,
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: const EdgeInsets.only(left: 30.0),
-                      child: const Text("Connect with Google"))),
-            ),
+                ),
+              ],
+            )
           ],
         ),
       ),

@@ -16,13 +16,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-        body: Container(
-      child: Column(
-        children: [
-          Text("Welcome ${user.displayName}",
-              style: const TextStyle(color: Colors.redAccent, fontSize: 55.0)),
-        ],
-      ),
+        body: Column(
+      children: [
+        Text("Welcome ${user.displayName}",
+            style: const TextStyle(color: Colors.redAccent, fontSize: 55.0)),
+      ],
     ));
   }
 }
