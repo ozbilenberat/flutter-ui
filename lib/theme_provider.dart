@@ -27,21 +27,6 @@ ThemeData lightTheme(BuildContext context) {
   );
 }
 
-ThemeData darkThdeme(BuildContext context) {
-  return ThemeData(
-      textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white,
-          ),
-      primaryColor: Colors.black,
-      brightness: Brightness.dark,
-      // ignore: deprecated_member_use
-      accentIconTheme: const IconThemeData(color: Colors.white),
-      dividerColor: Colors.white12,
-      hintColor: Colors.white30,
-      toggleableActiveColor: Colors.blue);
-}
-
 ThemeData darkTheme(BuildContext context) {
   return ThemeData(
       inputDecorationTheme: const InputDecorationTheme(
@@ -49,13 +34,10 @@ ThemeData darkTheme(BuildContext context) {
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(style: BorderStyle.solid, color: Colors.red),
           )),
-      textTheme: const TextTheme(
-        bodyText1: TextStyle(),
-        bodyText2: TextStyle(),
-      ).apply(
-        bodyColor: Colors.orange,
-        displayColor: Colors.blue,
-      ),
+      textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
+          ),
       primaryColor: Colors.black,
       brightness: Brightness.dark,
       // ignore: deprecated_member_use

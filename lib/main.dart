@@ -14,6 +14,7 @@ Future<void> main() async {
 }
 
 final darkNotifier = ValueNotifier<bool>(false);
+final passValue = ValueNotifier<bool>(false);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -28,8 +29,6 @@ class MyApp extends StatelessWidget {
               title: 'Flutter Demo',
               themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
               theme: lightTheme(context),
-
-              /* Dark theme settings */
               darkTheme: darkTheme(context),
               home: const LoginScreen());
         });

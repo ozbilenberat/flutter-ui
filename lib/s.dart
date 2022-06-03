@@ -21,8 +21,8 @@ Future<void> signUp() async {
           email: emailText.text, password: passwordText.text)
       .then((users) {
     FirebaseFirestore.instance.collection("Users").doc(emailText.text).set({
-      "User E-mail": emailText.text,
-      "UserPassword": passwordText.text,
+      "Email": emailText.text,
+      "Password": passwordText.text,
       "Name": nameText.text,
       "Surname": surNameText.text,
       "Birthdate:": birtDateText.toString(),

@@ -15,15 +15,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var user = FirebaseAuth.instance.currentUser!;
 
-    var nick = user.displayName;
-
     return Scaffold(
         body: Container(
       child: Column(
         children: [
-          Text(nick.toString(),
-              style: const TextStyle(color: Colors.redAccent)),
-          Text("hh".toString()),
+          Text("Welcome ${user.displayName}",
+              style: const TextStyle(color: Colors.redAccent, fontSize: 55.0)),
         ],
       ),
     ));

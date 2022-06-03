@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 import 'create_account.dart';
 import 'package:firestore_blog/create_account.dart';
 import 'main.dart';
-import 'theme_provider.dart';
+import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,11 +17,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailText = TextEditingController();
-  TextEditingController passwordText = TextEditingController();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  bool isCheck = false;
   late Box box1;
+
+  bool checker = false;
+  TextEditingController emailText = TextEditingController();
+  bool isCheck = false;
+  bool isDark = darkNotifier.value;
+  TextEditingController passwordText = TextEditingController();
+  bool isVisiblePass = passValue.value;
+
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    darkNotifier.dispose();
+    super.dispose();
+  }
+
+  void disposes() {
+    passValue.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -41,12 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (box1.get("passwordText") != null) {
       passwordText.text = box1.get("passwordText");
     }
-  }
-
-  @override
-  void dispose() {
-    darkNotifier.dispose();
-    super.dispose();
   }
 
 //ANCHOR: GİRİŞ
@@ -86,17 +96,17 @@ class _LoginScreenState extends State<LoginScreen> {
           default:
             errorMessage = "An undefined Error happened.";
         }
-        sdsds();
+        showLoginError();
       });
     }
   }
 
-  void sdsds() {
+  void showLoginError() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Title"),
+            title: const Text("Title"),
             content: Text(errorMessage),
             actions: <Widget>[
               TextButton(
@@ -110,8 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
-  bool checker = false;
-  bool isDark = darkNotifier.value;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: Image.asset(
-                "assets/images/pngegg.png",
+                "assets/images/logo.png",
               ),
             ),
             const SizedBox(
@@ -150,7 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width / 1.3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
                     ),
                     child: TextFormField(
                       textAlign: TextAlign.center,
@@ -168,40 +175,71 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width / 1.3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
                     ),
                     child: TextFormField(
+                      obscureText: isVisiblePass,
                       textAlign: TextAlign.center,
                       controller: passwordText,
-                      decoration: const InputDecoration(
-                          hintText: "Password",
-                          hintStyle: TextStyle(
-                              color: Colors.black26,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500)),
+                      decoration: InputDecoration(
+                        hintText: "  Password",
+                        hintStyle: TextStyle(
+                            color: Colors.black26,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                        suffixIcon: IconButton(
+                          color: Theme.of(context).highlightColor,
+                          onPressed: () {
+                            setState(() {
+                              isVisiblePass = !isVisiblePass;
+                              passValue.value = isVisiblePass;
+                            });
+                          },
+                          tooltip: 'Increment',
+                          icon: Icon(isVisiblePass
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            TextButton(
-                style: ButtonStyle(
-                    overlayColor:
-                        MaterialStateProperty.all(Colors.transparent)),
-                onPressed: () => setState(() => isCheck = !isCheck),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  SizedBox(
-                      height: 24.0,
-                      width: 24.0,
-                      child: Checkbox(
-                          value: isCheck,
-                          onChanged: (value) {
-                            setState(() => isCheck = !isCheck);
-                          })),
-                  const SizedBox(width: 1.0),
-                  const Text("Remember me")
-                ])),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    style: ButtonStyle(
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent)),
+                    onPressed: () => setState(() => isCheck = !isCheck),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent)),
+                              onPressed: () =>
+                                  setState(() => isCheck = !isCheck),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                        height: 24.0,
+                                        width: 24.0,
+                                        child: Checkbox(
+                                            value: isCheck,
+                                            onChanged: (value) {
+                                              setState(
+                                                  () => isCheck = !isCheck);
+                                            })),
+                                    const SizedBox(width: 1.0),
+                                    const Text("Remember me")
+                                  ])),
+                        ])),
+              ],
+            ),
             Container(
               margin: const EdgeInsets.only(bottom: 5.0),
               width: MediaQuery.of(context).size.width / 2,
