@@ -14,6 +14,9 @@ class ThemeModel with ChangeNotifier {
 ThemeData lightTheme(BuildContext context) {
   return ThemeData(
     inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black54),
+      ),
       labelStyle: const TextStyle(color: Colors.blue),
       focusedBorder: const UnderlineInputBorder(
         borderSide: BorderSide(style: BorderStyle.solid, color: Colors.blue),
@@ -29,6 +32,9 @@ ThemeData lightTheme(BuildContext context) {
     ),
     hintColor: Colors.black26,
     primaryColor: Colors.blue,
+    iconTheme: const IconThemeData(
+      color: Colors.black87,
+    ),
     brightness: Brightness.light,
     hoverColor: Colors.black54,
     // ignore: deprecated_member_use
@@ -40,28 +46,30 @@ ThemeData lightTheme(BuildContext context) {
 
 ThemeData darkTheme(BuildContext context) {
   return ThemeData(
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: const TextStyle(color: Colors.blue),
-      focusedBorder: const UnderlineInputBorder(
-        borderSide: BorderSide(style: BorderStyle.solid, color: Colors.blue),
+      inputDecorationTheme: InputDecorationTheme(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color.fromARGB(169, 255, 255, 255)),
+        ),
+        labelStyle: const TextStyle(color: Colors.blue),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(style: BorderStyle.solid, color: Colors.blue),
+        ),
+        suffixIconColor: Colors.grey.shade800,
       ),
-      suffixIconColor: Colors.grey.shade800,
-    ),
-    textTheme: const TextTheme(
-      bodyText1: TextStyle(),
-      bodyText2: TextStyle(),
-    ).apply(
-      bodyColor: Colors.white,
-      displayColor: Colors.white,
-    ),
-    primaryColor: Colors.black,
-    brightness: Brightness.dark,
-    // ignore: deprecated_member_use
-    hoverColor: Colors.white60,
-
-    dividerColor: Colors.white12,
-    hintColor: Colors.white30,
-    toggleableActiveColor: Colors.blue,
-    scaffoldBackgroundColor: Colors.black12,
-  );
+      textTheme: const TextTheme(
+        bodyText1: TextStyle(),
+        bodyText2: TextStyle(),
+      ).apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
+      primaryColor: Colors.black,
+      brightness: Brightness.dark,
+      iconTheme: IconThemeData(color: Colors.white70),
+      hoverColor: Colors.white60,
+      dividerColor: Colors.white12,
+      hintColor: Colors.white30,
+      toggleableActiveColor: Colors.blue,
+      scaffoldBackgroundColor: Colors.black,
+      dialogBackgroundColor: Color.fromARGB(255, 36, 35, 35));
 }

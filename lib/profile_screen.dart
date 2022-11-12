@@ -17,9 +17,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
         body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Welcome ${user.displayName}",
-            style: const TextStyle(color: Colors.redAccent, fontSize: 55.0)),
+        Center(
+          child: Text("Welcome ${user.displayName}",
+              style: const TextStyle(color: Colors.redAccent, fontSize: 55.0)),
+        ),
       ],
     ));
   }

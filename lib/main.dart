@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, bool isDark, Widget? child) {
           return MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'Flutter Demo',
+              title: 'Firestore blog',
               themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
               theme: lightTheme(context),
               darkTheme: darkTheme(context),
